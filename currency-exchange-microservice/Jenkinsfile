@@ -7,6 +7,13 @@ pipeline {
 		PATH = "$mavenHome/bin:$dockerHome/bin:$PATH"
 	}
 	stages{
+		stage('Checkout'){
+			steps{
+				echo "$PATH"
+				echo "$env.WORKSPACE"
+				echo "$env.JENKINS_HOME"
+			}	
+		}
 		stage('Compile') {
 			steps{
 			sh "cd currency-exchange-microservice"
