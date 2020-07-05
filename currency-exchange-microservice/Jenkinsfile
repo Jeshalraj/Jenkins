@@ -13,6 +13,7 @@ pipeline {
 				echo "$PATH"
 				echo "$env.WORKSPACE"
 				echo "$env.JENKINS_HOME"
+				sh "ls -a $env.WORKSPACE"
 			}	
 		}
 		stage('Compile') {
