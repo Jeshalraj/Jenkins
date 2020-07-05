@@ -35,12 +35,48 @@ pipeline {
 			steps{
 			echo "Integration Test"
 			dir("$env.WORKSPACE/currency-exchange-microservice/"){
-			sh "mvn failsafe:Integration test failsafe:verify"
+			sh "mvn failsafe:integration-test failsafe:verify"
 				}
 			
 			}
 		}		
-	}
+		
+		stage('Create Jar') {
+			steps{
+			echo "Create Jar"
+			 dir("$env.WORKSPACE/currency-exchange-microservice/"){
+				sh "mvn package -DskipTests"
+				}
+			}
+		}
+		
+		stage('Build docker image') {
+			steps{
+			echo "Docker Image creation"
+			dir("$env.WORKSPACE/currency-exchange-microservice/"){
+			script{
+				dockerImage = docker.build("jeshalraj/jenkins-practice:${env.BUILD_TAG}")
+			}	
+				}
+			
+			}
+		}
+
+		stage('Push docker image') {
+			steps{
+			echo "Docker Image push"
+			script{
+				docker.withRegistry('','dockerhub'){
+					dockerImage.push()
+					dockerImage.push('latest')
+				}
+			}	
+				
+			}
+		}
+		
+		}
+		
 	post{
 		always{
 			echo "I run always"
