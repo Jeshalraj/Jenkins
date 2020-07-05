@@ -23,7 +23,7 @@ pipeline {
 		always{
 			echo "I run always"
 		}
-		sucess{
+		success{
 			echo "I run when the build is successful"
 		}
 		failure{
