@@ -5,7 +5,6 @@ pipeline {
 		dockerHome = tool 'myDocker'
 		mavenHome = tool 'myMaven'
 		PATH = "$mavenHome/bin:$dockerHome/bin:$PATH"
-		WORKSPACE = "$env.WORKSPACE/currency-exchange-microservice/"
 	}
 	stages{
 		stage('Checkout'){
@@ -13,13 +12,13 @@ pipeline {
 				echo "$PATH"
 				echo "$env.WORKSPACE"
 				echo "$env.JENKINS_HOME"
-				sh "ls -a $env.WORKSPACE"
 			}	
 		}
 		stage('Compile') {
 			steps{
-			//sh "cd $env.WORKSPACE/currency-exchange-microservice"
-			sh "mvn clean compile"
+			 dir("$env.WORKSPACE/currency-exchange-microservice/"){
+				sh "mvn clean compile"
+				}
 			echo "Compile"
 			}
 			
@@ -27,13 +26,18 @@ pipeline {
 		stage('Test') {
 			steps{
 			echo "Test"
-			sh "mvn test"
+			 dir("$env.WORKSPACE/currency-exchange-microservice/"){
+				sh "mvn test"
+				}
 			}
 		}
 		stage('Integration Test') {
 			steps{
 			echo "Integration Test"
+			dir("$env.WORKSPACE/currency-exchange-microservice/"){
 			sh "mvn failsafe:Integration test failsafe:verify"
+				}
+			
 			}
 		}		
 	}
