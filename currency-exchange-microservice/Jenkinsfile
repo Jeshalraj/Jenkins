@@ -16,7 +16,7 @@ pipeline {
 		}
 		stage('Compile') {
 			steps{
-			sh "cd currency-exchange-microservice"
+			sh "cd $env.WORKSPACE/currency-exchange-microservice"
 			sh "mvn clean compile"
 			echo "Compile"
 			}
