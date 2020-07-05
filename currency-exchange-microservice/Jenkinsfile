@@ -9,6 +9,7 @@ pipeline {
 	stages{
 		stage('Compile') {
 			steps{
+			sh "cd currency-exchange-microservice"
 			sh "mvn clean compile"
 			echo "Compile"
 			}
