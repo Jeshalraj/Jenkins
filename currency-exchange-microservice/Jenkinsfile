@@ -53,11 +53,10 @@ pipeline {
 		stage('Build docker image') {
 			steps{
 			echo "Docker Image creation"
-			dir("$env.WORKSPACE/currency-exchange-microservice/"){
+
 			script{
 				dockerImage = docker.build("jeshalraj/jenkins-practice:${env.BUILD_TAG}")
 			}	
-				}
 			
 			}
 		}
